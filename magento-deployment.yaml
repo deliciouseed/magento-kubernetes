@@ -11,7 +11,7 @@ spec:
         app: apache
     spec:
       containers:
-      - image: alexcheng/magento2
+      - image: ameng/php7-apache2
         name: apache
         env:
         - name: DB_HOST
