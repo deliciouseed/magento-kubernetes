@@ -1,29 +1,29 @@
 apiVersion: extensions/v1beta1
 kind: Deployment
 metadata:
-   name: magento2
+   name: apache
    labels:
-   app: magento2
+     app: apache
 spec:
-  strategy:
-     type: Recreate
   template:
-  metadata:
-  labels:
-    app: magento2
-    tier: frontend
- spec:
-   containers:
-   - image: alexcheng/magento2
-     name: magento2
-   env:
-   - name: MAGENTO_DB_HOST
-     value: magento2-mysql
-   - name: MAGENTO_DB_PASSWORD
-     valueFrom:
-      secretKeyRef:
-        name: mysql-pass
-        key: password
-   ports:
-   - containerPort: 80
-     name: magento2
+    metadata:
+      labels:
+        app: apache
+    spec:
+      containers:
+      - image: alexcheng/magento2
+        name: apache
+        env:
+        - name: DB_HOST
+          value: mysql-service.default.svc.cluster.local
+        - name: DB_NAME
+          value: demo
+        - name: DB_USER
+          value: root
+        - name: DB_PWD
+          valueFrom:
+            secretKeyRef:
+              name: mysql-pass
+              key: password
+        ports:
+        - containerPort: 80
